@@ -6,7 +6,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/", methods=["POST"])
+@app.route("/", methods=["GET"])
 def scraper():
     return scrape()
 
@@ -33,12 +33,13 @@ def print_text(elems, type):
 
 
 def scrape():
+    sleep_time = 10
     options = driver_settings(headless=False)
     driver = webdriver.Chrome(
         options=options,
     )
     driver.get("https://test.deepblock.net/")
-    time.sleep(10)
+    time.sleep(sleep_time)
 
     try:
         # find signin button and click -> redirects to the login page
@@ -47,7 +48,7 @@ def scrape():
             0
         ]
         signin_button.click()
-        time.sleep(10)
+        time.sleep(sleep_time)
 
         # find Google login button and click -> redirects to a new page
         a_tags = driver.find_elements(By.TAG_NAME, "a")
@@ -59,7 +60,7 @@ def scrape():
                 google_tag = a_tag
                 break
         google_tag.click()
-        time.sleep(10)
+        time.sleep(sleep_time)
 
         # fill in the email
         email = "intizartashow99@gmail.com"
@@ -71,7 +72,7 @@ def scrape():
         buttons = driver.find_elements(By.TAG_NAME, "button")
         next_button = [button for button in buttons if button.text == "Next"][0]
         next_button.click()
-        time.sleep(10)
+        time.sleep(sleep_time)
 
         # fill in the password
         password = "Insignia@123"
@@ -83,7 +84,7 @@ def scrape():
         buttons = driver.find_elements(By.TAG_NAME, "button")
         next_button = [button for button in buttons if button.text == "Next"][0]
         next_button.click()
-        time.sleep(10)
+        time.sleep(sleep_time)
 
         # get cookies
         cookie_obj = driver.get_cookie("connect.sid")
@@ -97,4 +98,4 @@ def scrape():
 
 
 if __name__ == "__main__":
-    app.run(ssl_context="adhoc")
+    app.run(host="0.0.0.0")
