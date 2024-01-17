@@ -33,7 +33,7 @@ def print_text(elems, type):
 
 
 def scrape():
-    sleep_time = 10
+    sleep_time = 5
     options = driver_settings(headless=False)
     driver = webdriver.Chrome(
         options=options,
@@ -89,11 +89,15 @@ def scrape():
         # get cookies
         cookie_obj = driver.get_cookie("connect.sid")
         cookie_name = cookie_obj.get("name", "Couldn't find the cookie")
+
+        driver.close()
+
         if cookie_name == "connect.sid":
             return cookie_obj["value"]
         else:
             return cookie_name
     except Exception as error:
+        driver.close()
         return error
 
 
