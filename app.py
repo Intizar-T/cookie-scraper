@@ -6,7 +6,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["POST"])
 def scraper():
     return scrape()
 
